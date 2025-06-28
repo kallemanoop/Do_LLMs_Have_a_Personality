@@ -1,20 +1,23 @@
+from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
+import torch
 import json
 import os
-import requests
 from datetime import datetime
 from prompt_generator import load_questions, generate_prompt
+import requests
 
 
-MODEL_NAME = "meta-llama/Llama-3-70b-chat-hf" 
-
+MODEL_NAME = "arcee-ai/AFM-4.5B-Preview"
+#MODEL_NAME2 = "HuggingFaceH4/zephyr-7b-alpha"
 API_URL = f"https://api.together.xyz/v1/chat/completions"
-from dotenv import load_dotenv  
+from dotenv import load_dotenv
 load_dotenv("../../.env")
 API_KEY = os.getenv("TOGETHER_API_KEY")
-HEADERS = {
-    "Authorization": f"Bearer {API_KEY}",
-    "Content-Type": "application/json"
+
+HEADERS= {
+    "Authorization": f"Bearer {API_KEY}"
 }
+#print(f"Loading model {MODEL_NAME}...")
 
 def query_together(prompt):
     payload = {

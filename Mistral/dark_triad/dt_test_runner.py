@@ -10,10 +10,11 @@ import requests
 MODEL_NAME = "mistralai/Mixtral-8x7B-Instruct-v0.1"
 #MODEL_NAME2 = "HuggingFaceH4/zephyr-7b-alpha"
 API_URL = f"https://api-inference.huggingface.co/models/{MODEL_NAME}"
-HF_TOKEN = "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"
-
+from dotenv import load_dotenv
+load_dotenv("../../.env")
+API_KEY = os.getenv("HUGGINGFACE_API_KEY")
 headers = {
-    "Authorization": f"Bearer {HF_TOKEN}"
+    "Authorization": f"Bearer {API_KEY}"
 }
 #print(f"Loading model {MODEL_NAME}...")
 

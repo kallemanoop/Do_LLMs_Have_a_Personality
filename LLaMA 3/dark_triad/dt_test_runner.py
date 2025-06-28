@@ -10,7 +10,9 @@ import requests
 MODEL_NAME = "meta-llama/Llama-3-70b-chat-hf" 
 
 API_URL = f"https://api.together.xyz/v1/chat/completions"
-API_KEY = "b4279b181c6584d4adc267ffa0c28f37ffed0a2bcd52f155afdff4e7c3efbac7" 
+from dotenv import load_dotenv  
+load_dotenv("../../.env")
+API_KEY = os.getenv("TOGETHER_API_KEY")
 headers = {
     "Authorization": f"Bearer {API_KEY}",
     "Content-Type": "application/json"

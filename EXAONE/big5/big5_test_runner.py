@@ -5,7 +5,7 @@ from datetime import datetime
 from prompt_generator import load_questions, generate_prompt
 
 
-MODEL_NAME = "meta-llama/Llama-3-70b-chat-hf" 
+MODEL_NAME = "lgai/exaone-3-5-32b-instruct" 
 
 API_URL = f"https://api.together.xyz/v1/chat/completions"
 from dotenv import load_dotenv  
@@ -36,9 +36,23 @@ def query_together(prompt):
 def parse_response(text):
     if not text:
         return None
+
+    text = text.strip().lower()
+
+    # Try strict match first
+    if text in ["1", "2", "3", "4", "5"]:
+        return int(text)
+
+    # Look for [n] pattern
     for i in range(1, 6):
-        if f"[{i}]" in text or text.strip() == str(i):
+        if f"[{i}]" in text:
             return i
+
+    # Loose fallback
+    for i in range(1, 6):
+        if f"{i}" in text:
+            return i
+
     return None
 
 def run_big5_test():

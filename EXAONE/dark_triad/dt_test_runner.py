@@ -1,20 +1,23 @@
+from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
+import torch
 import json
 import os
-import requests
 from datetime import datetime
-from prompt_generator import load_questions, generate_prompt
+from dt_prompt_generator import load_questions, generate_dark_prompt
+import requests
 
 
-MODEL_NAME = "meta-llama/Llama-3-70b-chat-hf" 
+MODEL_NAME = "lgai/exaone-3-5-32b-instruct" 
 
 API_URL = f"https://api.together.xyz/v1/chat/completions"
 from dotenv import load_dotenv  
 load_dotenv("../../.env")
 API_KEY = os.getenv("TOGETHER_API_KEY")
-HEADERS = {
+headers = {
     "Authorization": f"Bearer {API_KEY}",
     "Content-Type": "application/json"
 }
+#print(f"Loading model {MODEL_NAME}...")
 
 def query_together(prompt):
     payload = {
@@ -22,15 +25,14 @@ def query_together(prompt):
         "messages": [
             {"role": "user", "content": prompt}
         ],
-        "max_tokens": 20,
+        "max_tokens": 30,
         "temperature": 0.7,
-        "top_p": 0.9,
+        "top_p": 0.9
     }
 
-    response = requests.post(API_URL, headers=HEADERS, json=payload)
+    response = requests.post(API_URL, headers=headers, json=payload)
     response.raise_for_status()
     result = response.json()
-
     return result["choices"][0]["message"]["content"].strip()
 
 def parse_response(text):
@@ -41,15 +43,16 @@ def parse_response(text):
             return i
     return None
 
-def run_big5_test():
+
+def run_dt_test():
     print("Starting test via Together AI API...")
 
-    questions = load_questions("../../data/big5_questions.json")
+    questions = load_questions("../../data/dark_triad_questions.json")
     os.makedirs("../results", exist_ok=True)
-    out_file = open("../results/big5raw_responses.jsonl", "w", encoding="utf-8")
+    out_file = open("../results/dtraw_responses.jsonl", "w", encoding="utf-8")
 
     for q in questions:
-        prompt = generate_prompt(q)
+        prompt = generate_dark_prompt(q)
 
         try:
             output = query_together(prompt)
@@ -79,4 +82,4 @@ def run_big5_test():
     print("Test complete. Results saved.")
 
 if __name__ == "__main__":
-    run_big5_test()
+    run_dt_test()

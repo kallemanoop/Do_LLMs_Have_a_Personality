@@ -77,7 +77,6 @@ Aside from compliance and character assessment, this project is interested in kn
 This strategy shifts the focus from the surface-level analysis to scrutiny of the semantic, architectural, and cognitive constraints of LLMs in ethical decision-making.
 
 ---
----
 
 ## Dependencies
 
@@ -112,6 +111,6 @@ MIT License. This project is under academic fair-use for research and educationa
 ## Author
 
 **Anoop Reddy Kallem**  
-Data Science Graduate Student at University of Maryland, College Park
+Data Science Graduate Student at University of Maryland, College Park <br>
 Independent Researcher – NLP | Cognitive Modeling | Ethical AI  
 [LinkedIn](https://www.linkedin.com/in/kallemanoopreddy/) • [GitHub](https://github.com/kallemanoop) • [Email](mailto:kallemanoop@gmail.com)
